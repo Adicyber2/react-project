@@ -7,16 +7,22 @@ const App = () => {
   const [ImgURL, setImgURL] = useState('');
   const [Role, setRole] = useState('');
   const [Disc, setDisc] = useState('');
-
-
-  const [Alluser, setAlluser] = useState([]);
+  
+  const user=localStorage.getItem('Alluser')|| []
+  
+  
+  const [Alluser, setAlluser] = useState(user);
   
   const deleteUser=(idx)=>{
-    const copyUser=[...Alluser]
+   const copyUser=[...Alluser]
     copyUser.splice(idx,1)
-    setAlluser(copyUser)
+    setAlluser(copyUser);
+
+    
     
   }
+
+  
   
   
   
@@ -58,13 +64,16 @@ const App = () => {
        </form>
        <div className="contaner">
          {Alluser.map(function(elem,idx){
-          return  <div key={idx} className='card'>
+          return  <div className='card' key={idx} >
                <img src={elem.ImgURL} alt="" />
                <h1>{elem.name}</h1>
                <h3>{elem.Role}</h3>
               <p>{elem.Disc}</p>
               <button className="remove" onClick={deleteUser}>Remove</button>
             </div>
+          
+            
+            
           
           
            
