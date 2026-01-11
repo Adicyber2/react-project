@@ -1,6 +1,6 @@
 
 import React,{useState} from "react";
-
+import Card from './components/Card'
 
 const App = () => {
   const [name, setname] = useState('')
@@ -8,32 +8,36 @@ const App = () => {
   const [Role, setRole] = useState('');
   const [Disc, setDisc] = useState('');
   
-  const user=localStorage.getItem('Alluser')|| []
+
+  const newuser= JSON.parse(localStorage.getItem('user')) || []
+
+    
   
-  
-  const [Alluser, setAlluser] = useState(user);
+  const [Alluser, setAlluser] = useState(newuser);
   
   const deleteUser=(idx)=>{
    const copyUser=[...Alluser]
     copyUser.splice(idx,1)
     setAlluser(copyUser);
 
+    localStorage.setItem('user',JSON.stringify(copyUser))
     
     
   }
 
   
   
-  
-  
 
+  
 
   const submithandler=(e)=>{
     e.preventDefault();
      const oldUser=[...Alluser]
      oldUser.push({name,ImgURL,Role,Disc})
      setAlluser(oldUser)
-   
+
+     localStorage.setItem('user',JSON.stringify(oldUser))
+     
     setname('')
     setImgURL('')
     setRole('')
@@ -64,13 +68,7 @@ const App = () => {
        </form>
        <div className="contaner">
          {Alluser.map(function(elem,idx){
-          return  <div className='card' key={idx} >
-               <img src={elem.ImgURL} alt="" />
-               <h1>{elem.name}</h1>
-               <h3>{elem.Role}</h3>
-              <p>{elem.Disc}</p>
-              <button className="remove" onClick={deleteUser}>Remove</button>
-            </div>
+          return  <Card idx={idx} elem={elem} deleteUser={deleteUser}/>
           
             
             
